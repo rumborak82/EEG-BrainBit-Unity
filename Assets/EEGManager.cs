@@ -30,18 +30,25 @@ public class EEGManager : MonoBehaviour
 
     void SimulateEEG()
     {
-        F1 = Mathf.Sin(Time.time * 8f);
-        F2 = Mathf.Sin(Time.time * 7f);
-        O1 = Mathf.Sin(Time.time * 6f);
-        O2 = Mathf.Sin(Time.time * 5f);
+        float t = Time.time;
+
+        float baseF1 = Mathf.Sin(t * 8f) * 0.7f + Mathf.Sin(t * 16f) * 0.2f;
+        float baseF2 = Mathf.Sin(t * 7.5f) * 0.7f + Mathf.Sin(t * 15f) * 0.2f;
+        float baseO1 = Mathf.Sin(t * 9f) * 0.7f + Mathf.Sin(t * 18f) * 0.2f;
+        float baseO2 = Mathf.Sin(t * 8.5f) * 0.7f + Mathf.Sin(t * 17f) * 0.2f;
+
+        // малък шум (не много!)
+        baseF1 += Random.Range(-0.05f, 0.05f);
+        baseF2 += Random.Range(-0.05f, 0.05f);
+        baseO1 += Random.Range(-0.05f, 0.05f);
+        baseO2 += Random.Range(-0.05f, 0.05f);
+
+        // изглаждане
+        F1 = Mathf.Lerp(F1, baseF1, 0.15f);
+        F2 = Mathf.Lerp(F2, baseF2, 0.15f);
+        O1 = Mathf.Lerp(O1, baseO1, 0.15f);
+        O2 = Mathf.Lerp(O2, baseO2, 0.15f);
     }
 
-    // тук по-късно ще идват реални данни
-    public void SetRealData(float[] data)
-    {
-        F1 = data[0];
-        F2 = data[1];
-        O1 = data[2];
-        O2 = data[3];
-    }
+    
 }
